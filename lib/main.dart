@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'Travel App',
       debugShowCheckedModeBanner: false,
       
-      home: WelcomePage(),
+      home: MainPage(),
     );
   }
 }
