@@ -1,3 +1,5 @@
+import 'package:bloc_travel_app/pages/detail_page.dart';
+import 'package:bloc_travel_app/pages/home_page.dart';
 import 'package:bloc_travel_app/pages/nav_pages/main_page.dart';
 import 'package:bloc_travel_app/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
       title: 'Travel App',
       debugShowCheckedModeBanner: false,
       
-      home: MainPage(),
+      home: DetailPage(),
     );
   }
 }

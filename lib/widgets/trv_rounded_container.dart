@@ -2,8 +2,7 @@ import 'package:bloc_travel_app/widgets/trv.text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
-class TrvButtons extends StatelessWidget {
+class RoundedContainer extends StatelessWidget {
   final Color color;
   String? text;
   IconData? icon;
@@ -11,15 +10,21 @@ class TrvButtons extends StatelessWidget {
   double size;
   final Color borderColor;
   bool? isIcon;
+  
 
-  TrvButtons({Key? key,
-    this.isIcon=false,
-    this.text="Hi",
-    this.icon,
-    required this.size,
-    required this.color,
-    required this.backgroundColor,
-    required this.borderColor}) : super(key: key);
+
+  RoundedContainer(
+      {Key? key,
+      this.isIcon = false,
+     
+      this.text = "Hi",
+      this.icon,
+      required this.size,
+      required this.color,
+      required this.backgroundColor,
+      required this.borderColor,
+     })
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,9 @@ class TrvButtons extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(15),
           color: backgroundColor),
-      child: isIcon==false?Center(child: TrvText(text: text!, color:color)):Center(child: Icon(icon, color:color)),
+      child: isIcon == false
+          ? Center(child: TrvText(text: text!, color: color))
+          : Center(child: Icon(icon, color: color)),
     );
   }
 }
