@@ -1,11 +1,14 @@
 import 'package:bloc_travel_app/constants/trv_assets.dart';
 import 'package:bloc_travel_app/constants/trv_color.dart';
-import 'package:bloc_travel_app/widgets/responsive_button.dart';
+import 'package:bloc_travel_app/cubit/trv_cubits.dart';
+import 'package:bloc_travel_app/cubit/trv_cubits_state.dart';
 import 'package:bloc_travel_app/widgets/trv.text.dart';
+import 'package:bloc_travel_app/widgets/trv_resp.dart';
 import 'package:bloc_travel_app/widgets/trv_rounded_container.dart';
 import 'package:bloc_travel_app/widgets/trv_large_text.dart';
 import 'package:bloc_travel_app/widgets/trv_space.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailPage extends StatefulWidget {
@@ -24,12 +27,14 @@ class _DetailPageState extends State<DetailPage> {
     "5",
   ];
   int selectedIndex = 0;
-  int gottenStars = 4;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: TrvSpace(
+        body: BlocBuilder<TrvCubits, CubitState>(builder: ((context, state) {
+      DetailStates detail = state as DetailStates;
+      return TrvSpace(
         height: double.infinity,
         width: double.maxFinite,
         child: Stack(
@@ -42,17 +47,22 @@ class _DetailPageState extends State<DetailPage> {
                 width: double.maxFinite,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(TrvAssets.moutain), fit: BoxFit.cover),
+                      image: AssetImage(TrvString.moutain), fit: BoxFit.cover),
                 ),
               ),
             ),
             Positioned(
               left: 20.w,
               top: 70.h,
-              child: const Icon(
-                Icons.menu,
-                size: 30,
-                color: TrvColors.white,
+              child: IconButton(
+                onPressed: (() {
+                  BlocProvider.of<TrvCubits>(context).goHome();
+                }),
+                icon: const Icon(
+                  Icons.menu,
+                  size: 30,
+                  color: TrvColors.white,
+                ),
               ),
             ),
             Positioned(
@@ -85,13 +95,13 @@ class _DetailPageState extends State<DetailPage> {
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             TrvLargeText(
-                              text: 'Yosemite',
+                              text: detail.data.name,
                               color: TrvColors.textColor2,
                             ),
                             TrvLargeText(
-                              text: '\$ 250',
+                              text: '\$${detail.data.price}',
                               color: TrvColors.red,
                             ),
                           ],
@@ -100,16 +110,16 @@ class _DetailPageState extends State<DetailPage> {
                           height: 10,
                         ),
                         Row(
-                          children: const [
-                            Icon(
+                          children: [
+                            const Icon(
                               Icons.location_on_sharp,
                               color: TrvColors.mainColor,
                             ),
-                            TrvSpace(
+                            const TrvSpace(
                               width: 10,
                             ),
                             TrvText(
-                              text: 'Lagos, Nigeria',
+                              text: detail.data.location,
                               color: TrvColors.textColor1,
                             )
                           ],
@@ -125,7 +135,7 @@ class _DetailPageState extends State<DetailPage> {
                                 5,
                                 (index) => Icon(
                                   Icons.star,
-                                  color: index < gottenStars
+                                  color: index <= detail.data.stars
                                       ? TrvColors.starColor
                                       : TrvColors.textColor2,
                                 ),
@@ -134,7 +144,7 @@ class _DetailPageState extends State<DetailPage> {
                             const TrvSpace(
                               width: 5.0,
                             ),
-                            const TrvText(text: "(4.0)"),
+                            const TrvText(text: "(5.0)"),
                           ],
                         ),
                         const TrvSpace(
@@ -165,7 +175,6 @@ class _DetailPageState extends State<DetailPage> {
                                 });
                               }),
                               child: RoundedContainer(
-                                  
                                   size: 55.h,
                                   isIcon: false,
                                   text: (index + 1).toString(),
@@ -190,10 +199,9 @@ class _DetailPageState extends State<DetailPage> {
                         TrvSpace(
                           height: 10.h,
                         ),
-                        const Flexible(
+                        Flexible(
                           child: TrvText(
-                            text:
-                                "You must go for a travel, Travelling helps get ride of pressure. Visit the contains to see the nature",
+                            text: detail.data.description,
                             color: TrvColors.bigTextColor,
                           ),
                         ),
@@ -203,16 +211,20 @@ class _DetailPageState extends State<DetailPage> {
                         Row(
                           children: [
                             RoundedContainer(
-                                isIcon: true,
-                                icon: Icons.favorite_sharp,
-                                size: 55.h,
-                                color: Colors.black,
-                                backgroundColor: TrvColors.buttonBackground,
-                                borderColor: Colors.black,
-                               ),
-                               TrvSpace(width: 20.w,),
-                            ResponsiveButton(
+                              isIcon: true,
+                              icon: Icons.favorite_sharp,
+                              size: 55.h,
+                              color: Colors.black,
+                              backgroundColor: TrvColors.buttonBackground,
+                              borderColor: Colors.black,
+                            ),
+                            TrvSpace(
+                              width: 20.w,
+                            ),
+                            TrvMainButton(
                               isResponsive: true,
+                              width: double.infinity,
+                              onPressed: () {},
                             ),
                           ],
                         ),
@@ -224,7 +236,7 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ],
         ),
-      ),
-    );
+      );
+    })));
   }
 }

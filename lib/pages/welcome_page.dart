@@ -1,10 +1,12 @@
 import 'package:bloc_travel_app/constants/trv_assets.dart';
 import 'package:bloc_travel_app/constants/trv_color.dart';
+import 'package:bloc_travel_app/cubit/trv_cubits.dart';
 import 'package:bloc_travel_app/widgets/trv.text.dart';
 import 'package:bloc_travel_app/widgets/trv_large_text.dart';
 import 'package:bloc_travel_app/widgets/trv_resp.dart';
 import 'package:bloc_travel_app/widgets/trv_space.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -15,14 +17,16 @@ class WelcomePage extends StatefulWidget {
 }
 
 List<String> images = [
-  TrvAssets.welcome1,
-  TrvAssets.welcome2,
-  TrvAssets.welcome3
+  TrvString.welcome1,
+  TrvString.welcome2,
+  TrvString.welcome3
 ];
 
 class _WelcomePageState extends State<WelcomePage> {
+  
   @override
   Widget build(BuildContext context) {
+    final blocProvider = BlocProvider.of<TrvCubits>(context);
     return Scaffold(
       body: PageView.builder(
           scrollDirection: Axis.vertical,
@@ -64,8 +68,9 @@ class _WelcomePageState extends State<WelcomePage> {
                         TrvSpace(
                           height: 40.h,
                         ),
-                        const TrvMainButton(
-                          width: 120,
+                         TrvMainButton(
+                          width: 80,
+                          onPressed:blocProvider.getData ,
                         )
                       ],
                     ),
